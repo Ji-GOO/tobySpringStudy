@@ -6,9 +6,16 @@ import java.sql.*;
 
 public class UserDAO {
 
+    private ConnectionMaker connectionMaker;
+
+    public UserDAO(ConnectionMaker connectionMaker) {
+
+        this.connectionMaker = connectionMaker;
+    }
+
     public void add(User user) throws ClassNotFoundException, SQLException {
 
-        Connection con = getConnection();
+        Connection con = connectionMaker.makeConnection();
 
         PreparedStatement ps = con.prepareStatement(
                 "INSERT INTO users(id, name, password) VALUES(?, ?, ?)");
@@ -25,7 +32,7 @@ public class UserDAO {
 
     public User get(String id) throws ClassNotFoundException, SQLException {
 
-        Connection con = getConnection();
+        Connection con = connectionMaker.makeConnection();
 
         PreparedStatement ps = con.prepareStatement(
                 "SELECT * FROM users WHERE id = ?"
@@ -48,31 +55,5 @@ public class UserDAO {
         return user;
     }
 
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
 
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@localhost:59161:XE", "system", "oracle");
-
-        return con;
-    }
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
-        UserDAO dao = new UserDAO();
-
-        User user = new User();
-        user.setId("jigoo2");
-        user.setName("정지수11");
-        user.setPassword("1234522");
-
-        dao.add(user);
-
-        System.out.println(user.getId() + " 등록 성공!");
-
-        User user2 = dao.get(user.getId());
-        System.out.println(user2.getName());
-        System.out.println(user2.getPassword());
-        System.out.println(user2.getId() + " 조회 성공!");
-    }
 }
