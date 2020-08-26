@@ -8,16 +8,10 @@ public class UserDAO {
 
     public void add(User user) throws ClassNotFoundException, SQLException {
 
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@localhost:59161:XE",
-                "system",
-                "oracle"
-        );
+        Connection con = getConnection();
 
         PreparedStatement ps = con.prepareStatement(
-                "INSERT INTO users(id, name, password) VALUES(?, ?, ?)"
-        );
+                "INSERT INTO users(id, name, password) VALUES(?, ?, ?)");
 
         ps.setString(1, user.getId());
         ps.setString(2, user.getName());
@@ -31,13 +25,12 @@ public class UserDAO {
 
     public User get(String id) throws ClassNotFoundException, SQLException {
 
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@localhost:59161:XE", "system", "oracle");
+        Connection con = getConnection();
 
         PreparedStatement ps = con.prepareStatement(
                 "SELECT * FROM users WHERE id = ?"
         );
+
         ps.setString(1, id);
 
         ResultSet rs = ps.executeQuery();
@@ -55,14 +48,23 @@ public class UserDAO {
         return user;
     }
 
+    private Connection getConnection() throws ClassNotFoundException, SQLException {
+
+        Class.forName("oracle.jdbc.driver.OracleDriver");
+        Connection con = DriverManager.getConnection(
+                "jdbc:oracle:thin:@localhost:59161:XE", "system", "oracle");
+
+        return con;
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         UserDAO dao = new UserDAO();
 
         User user = new User();
-        user.setId("jigoo");
-        user.setName("정지수");
-        user.setPassword("12345");
+        user.setId("jigoo2");
+        user.setName("정지수11");
+        user.setPassword("1234522");
 
         dao.add(user);
 
