@@ -4,11 +4,11 @@ import com.jigoo.domain.User;
 
 import java.sql.*;
 
-public class UserDAO {
+public class UserDao {
 
     private ConnectionMaker connectionMaker;
 
-    public UserDAO(ConnectionMaker connectionMaker) {
+    public UserDao(ConnectionMaker connectionMaker) {
 
         this.connectionMaker = connectionMaker;
     }
@@ -54,6 +54,4 @@ public class UserDAO {
 
         return user;
     }
-
-
 }

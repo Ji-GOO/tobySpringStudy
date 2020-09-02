@@ -8,13 +8,12 @@ public class UserDaoTest {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        ConnectionMaker connectionMaker = new DConnectionMaker();
-        UserDAO dao = new UserDAO(connectionMaker);
+        UserDao dao = new DaoFactory().userDao();
 
         User user = new User();
-        user.setId("jigoo211");
-        user.setName("정지수121");
-        user.setPassword("12345222");
+        user.setId("jigoooo");
+        user.setName("지구다");
+        user.setPassword("111111111");
 
         dao.add(user);
 
